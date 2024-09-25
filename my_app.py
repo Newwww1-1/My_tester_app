@@ -6,7 +6,7 @@ import data_coll
 st.set_page_config(page_title="Participants Tracking Application", layout="centered", page_icon="🎯")
 
 # Load and set the background image (Streamlit doesn't support a true background image, but you can display it in the page header)
-bg_image = Image.open("E:/Nasa Space Apps Challenge/BG.jpg")  # Replace with your image file path
+bg_image = Image.open("BG.jpg")  # Replace with your image file path
 
 # Display header image and title
 st.image(bg_image, use_column_width=True)
