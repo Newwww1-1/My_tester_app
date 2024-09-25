@@ -3,13 +3,28 @@ from PIL import Image
 import data_coll
 
 # Set page configuration and title
-st.set_page_config(page_title="Participants Important Information Collection Form", layout="centered", page_icon="🎯")
+st.set_page_config(page_title="Participants Tracking Application", layout="centered", page_icon="🎯")
 
+# Helper function to show message
+def show_message(title, msg, type_="info"):
+    if type_ == "info":
+        st.info(f"{title}: {msg}")
+    elif type_ == "warning":
+        st.warning(f"{title}: {msg}")
+    elif type_ == "error":
+        st.error(f"{title}: {msg}")
+    elif type_ == "success":
+        st.success(f"{title}: {msg}")
+
+# Validation for numeric input
+def validate_numeric_input(value, field_name):
+    if value and not value.isdigit():
+        show_message("Input Error", f"{field_name} must contain only numeric values.", type_="warning")
+        return False
+    return True
 
 # UI Elements - Form in Streamlit
-with st.form("participant_form", clear_on_submit=True):
-    st.markdown("<div class='form-container'>", unsafe_allow_html=True)  # Wrap the form in a styled div
-    
+with st.form("participant_form"):
     st.write("Please fill out the form below to register:")
     
     # Form fields
@@ -32,21 +47,53 @@ with st.form("participant_form", clear_on_submit=True):
     # Submit button
     submitted = st.form_submit_button("Submit")
 
-    st.markdown("</div>", unsafe_allow_html=True)  # End of styled div
-
 # Form validation and submission logic
 if submitted:
+    # Basic validation
     if not all([name, email, mobile_no, age_group, cnic, team_name, challenge_name, institute_name]):
-        st.warning("Please fill out all fields.")
-    elif not mobile_no.isdigit() or not cnic.isdigit():
-        st.warning("Mobile No and CNIC must contain only numeric values.")
+        show_message("Input Error", "Please fill out all fields.", type_="warning")
+    elif not validate_numeric_input(mobile_no, "Mobile No") or not validate_numeric_input(cnic, "CNIC No"):
+        pass  # Error messages are already handled in the validation function
     else:
-        if data_coll.insert_data_if_cnic_not_exists(p_name=name,p_cnic=cnic,cell_=mobile_no,age_g=age_group,email=email, g_email=guardian_email,t_name=team_name,c_name=challenge_name,institute_name=institute_name) == 1:
-            st.success("Your data has been submitted successfully!")
-            st.experimental_rerun()
-        else:
-            st.success("CNIC is Already Registered")
-            st.experimental_rerun()
-# Footer with Exit button
+        # Insert the data into the database if validation passes
+        data_coll.insert_data_if_cnic_not_exists(
+            p_name=name,
+            p_cnic=cnic,
+            cell_=mobile_no,
+            age_g=age_group,
+            email=email,
+            g_email=guardian_email,
+            t_name=team_name,
+            c_name=challenge_name,
+            institute_name=institute_name
+        )
+        
+        # Show success message and reset form (simulated by reloading the page)
+        show_message("Success", "Your data has been submitted successfully!", type_="success")
+        st.experimental_rerun()  # This will reload the app and reset the form
+
+# Footer with Exit button (In Streamlit, we usually don't have an "exit" button like in desktop apps)
+st.markdown("<hr>", unsafe_allow_html=True)
 if st.button("Exit"):
     st.stop()
+
+# Make UI adjustments for Streamlit's overall look
+st.markdown("""
+    <style>
+    .stButton>button {
+        background-color: #1E90FF;
+        color: white;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 10px;
+    }
+    .stButton>button:hover {
+        background-color: #007BFF;
+    }
+    .stTextInput>div>input {
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+    }
+    </style>
+    """, unsafe_allow_html=True)
