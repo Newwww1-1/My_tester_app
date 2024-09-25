@@ -81,7 +81,7 @@ if submitted:
     elif not mobile_no.isdigit() or not cnic.isdigit():
         st.warning("Mobile No and CNIC must contain only numeric values.")
     else:
-        if data_coll.insert_data_if_cnic_not_exists(p_name=name,p_cnic=cnic,cell_=mobile_no,age_g=age_group,email=email, g_email=guardian_email,t_name=team_name,c_name=challenge_name,institute_name=institute_name) == 1
+        if data_coll.insert_data_if_cnic_not_exists(p_name=name,p_cnic=cnic,cell_=mobile_no,age_g=age_group,email=email, g_email=guardian_email,t_name=team_name,c_name=challenge_name,institute_name=institute_name) == 1:
             st.success("Your data has been submitted successfully!")
             st.experimental_rerun()
         else:
