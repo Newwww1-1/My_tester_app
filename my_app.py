@@ -5,46 +5,6 @@ import data_coll
 # Set page configuration and title
 st.set_page_config(page_title="Participants Important Information Collection Form", layout="centered", page_icon="🎯")
 
-# Custom CSS to set the background image
-st.markdown(
-    """
-    <style>
-    /* Apply background image to the entire page */
-    .stApp {
-        background-image: url('https://raw.githubusercontent.com/your-username/your-repo/main/BG.jpg');
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-    }
-
-    /* Make form background slightly transparent */
-    .form-container {
-        background-color: rgba(255, 255, 255, 0.8);
-        padding: 20px;
-        border-radius: 10px;
-    }
-
-    /* Adjust form field appearance */
-    .stTextInput>div>input, .stSelectbox>div {
-        padding: 10px;
-        border-radius: 5px;
-        border: 1px solid #ddd;
-    }
-
-    /* Adjust submit button appearance */
-    .stButton>button {
-        background-color: #1E90FF;
-        color: white;
-        padding: 10px;
-        font-size: 16px;
-        border-radius: 10px;
-    }
-    .stButton>button:hover {
-        background-color: #007BFF;
-    }
-    </style>
-    """, unsafe_allow_html=True
-)
 
 # UI Elements - Form in Streamlit
 with st.form("participant_form", clear_on_submit=True):
