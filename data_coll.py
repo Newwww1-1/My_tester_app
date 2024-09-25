@@ -1,6 +1,5 @@
 import mysql.connector
-import tkinter
-from tkinter import messagebox
+
 # Establish connection to MySQL database
 def create_connection():
     return mysql.connector.connect(
@@ -68,8 +67,7 @@ def insert_data_if_cnic_not_exists(p_cnic, p_name, cell_, age_g, email, g_email,
         # If CNIC does not exist, call insert_data function
         insert_data(p_cnic, p_name, cell_, age_g, email, g_email,
                     institute_name, c_name, t_name)
-    else:
-        messagebox.showerror("Error","Data Already Exists for this CNIC No!")
+
 
 
 # Function to check for rows based on the last 4 digits of CNIC
